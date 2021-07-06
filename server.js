@@ -7,8 +7,21 @@ const cors        = require('cors');
 const apiRoutes         = require('./routes/api.js');
 const fccTestingRoutes  = require('./routes/fcctesting.js');
 const runner            = require('./test-runner');
+const helmet            = require("helmet");
+// Here we requiere the connection with the data base 
+require("./db-connect");
 
 const app = express();
+
+app.use(
+  helmet.contentSecurityPolicy({
+    directives:{
+      defaultSrc:["'self'"],
+      scriptSrc: ["'self'","https://code.jquery.com-jquery-2.2.1.min.js"],
+      styleSrc:["'self'"],
+    },
+  })
+);
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
